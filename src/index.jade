@@ -1,0 +1,106 @@
+doctype html
+html(ng-app="app")
+    head
+        meta(charset="utf-8")
+
+        //- Display environment when not in production
+        if environment === "production"
+            title Angular Express
+        else
+            title= '[' + environment + '] - Angular Express'
+
+        base(href="/")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+
+        link(rel="stylesheet", type="text/css", href="app.css")
+
+        //- Non production environment
+        //- Load jspm loader and configuration
+        if environment !== "production"
+            script(src="_jspm_packages/system.js")
+            script(src="config.js")
+            //- Bootstrap the application
+            script.
+                System.import('app');
+
+        //- Production environment
+        //- Load self executing bundle
+        if environment === "production"
+            script(src="build.js")
+
+    body
+
+        header
+            h1 Angular User Settings
+            h2 Easily manage persistent user-specific settings in your AngularJS application.
+
+        main
+
+            div(style="margin-bottom: 45px;")
+
+                p This is the demo page for <a href="https://github.com/jvandemo/angular-user-settings">angular-user-settings</a>.
+
+                p Below are 3 user settings. You can click the links to alter their values.
+
+                p When you reload the page in your browser, the stored settings will be retrieved and applied automatically.
+
+            .row(user-settings)
+
+                .col
+                    div(ng-if="$userSettings.disabled('debug-mode')")
+                        a(ng-click="$userSettings.set('debug-mode', true)") Enable debug mode
+                    div(ng-if="$userSettings.enabled('debug-mode')")
+                        a(ng-click="$userSettings.set('debug-mode', false)") Disable debug mode
+
+                .col
+                    div(ng-if="!$userSettings.get('language')")
+                        a(ng-click="$userSettings.set('language', 'English')") Set language to English
+                    div(ng-if="$userSettings.get('language') === 'English'")
+                        a(ng-click="$userSettings.set('language', null)") Unset language
+
+                .col
+                    div(ng-if="!$userSettings.get('theme')")
+                        a(ng-click="$userSettings.set('theme', 'Dark')") Set theme to dark
+                    div(ng-if="$userSettings.get('theme') === 'Dark'")
+                        a(ng-click="$userSettings.set('theme', null)") Back to default theme
+
+            .row
+
+                .col
+                    .metric(user-setting="debug-mode")
+                        .metric__value
+                            | {{ $userSetting.enabled() ? 'Enabled' : 'Disabled' }}
+                        .metric__title
+                            | Debug mode
+
+                .col
+                    .metric(user-setting="language")
+                        .metric__value
+                            | {{ $userSetting.get() || 'Not set yet' }}
+                        .metric__title
+                            | Language
+
+                .col
+                    .metric(user-setting="theme")
+                        .metric__value
+                            | {{ $userSetting.get() || 'Default' }}
+                        .metric__title
+                            | Theme
+
+            div(style="margin-bottom: 10px;")
+                p.muted <em>Note</em>: The settings don't have any affect in this demo. They are just fictive to demonstrate how their value is stored across browser sessions.
+
+        footer
+
+            ul.links
+                li: a(href="https://github.com/jvandemo/angular-user-settings", target="_blank") GitHub
+                li: a(href="https://github.com/jvandemo/angular-user-settings/issues", target="_blank") Report an issue
+
+            | Demo created by
+            a(href="https://twitter.com/jvandemo", target="_blank") @jvandemo
+            = ' using '
+            a(href="http://www.angular-express.com", target="_blank") Angular Express
+            = ' '
+            | and hosted by
+            = ' '
+            a(href="http://surge.sh", target="_blank") Surge
