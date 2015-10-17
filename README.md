@@ -1,6 +1,6 @@
 # Welcome
 
-Demo website for [angular-consent](https://github.com/jvandemo/angular-user-settings).
+Demo website for [angular-user-settings](https://github.com/jvandemo/angular-user-settings).
 
 View live demo at: [http://angular-user-settings-demo.surge.sh](http://angular-user-settings-demo.surge.sh/).
 
